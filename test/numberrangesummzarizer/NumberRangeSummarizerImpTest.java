@@ -5,10 +5,7 @@ import numberrangesummarizer.NumberRangeSummarizerImp;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class NumberRangeSummarizerImpTest {
 
@@ -19,7 +16,7 @@ public class NumberRangeSummarizerImpTest {
     //test that valid input works
     @Test
     void testCollectWithValidInput() {
-        List<Integer> expected = Arrays.asList(2, 6, 28);
+        Collection<Integer> expected = Arrays.asList(2, 6, 28);
         Collection<Integer> result = summarizer.collect("6, 28, 2");
         assertEquals(expected, result);
     }
@@ -27,16 +24,38 @@ public class NumberRangeSummarizerImpTest {
     //test that white space is removed from the element(s) of result
     @Test
     void testCollectWithWhitespace() {
-        List<Integer> expected = Arrays.asList(13, 22, 30);
+        Collection<Integer> expected = Arrays.asList(13, 22, 30);
         Collection<Integer> result = summarizer.collect("13, 30 , 22");
         assertEquals(expected, result);
     }
 
-    //test that code is able to handle empty string
+    //test that code is able to handle empty string input
     @Test
-    void testCollectionWithEmptyString() {
-        List<Integer> expected = Collections.emptyList();
+    void testCollectWithEmptyString() {
+        Collection<Integer> expected = Collections.emptyList();
         Collection<Integer> result = summarizer.collect("");
         assertEquals(expected, result);
     }
-}
+
+    //test that the code throws an error when an invalid input is provided
+    @Test
+    void testCollectWithInvalidInput() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            summarizer.collect("21, boo, 42");
+        });
+        assertEquals("Input contains elements besides integers", exception.getMessage());
+    }
+
+
+    /* Test the summarizeCollection method */
+
+        //test that code is able to handle empty List input
+        @Test
+        void testSummarizeCollectionEmptyList() {
+            String expected = "";
+            Collection<Integer> collected = summarizer.collect("");
+            String result = summarizer.summarizeCollection(collected);
+
+            assertEquals(expected, result);
+        }
+    }
