@@ -51,7 +51,7 @@ public class NumberRangeSummarizerImp implements NumberRangeSummarizer {
         strings.add(formatRange(start, end));
 
 
-        return String.join(",", strings); //returns string that contains "strings" elements, separated by ","
+        return String.join(", ", strings); //returns string that contains "strings" elements, separated by ","
     }
 
     private String formatRange(int start, int end) { //formats inputs into range format for summarizeCollection()

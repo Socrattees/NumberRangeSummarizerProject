@@ -13,7 +13,7 @@ public class NumberRangeSummarizerImpTest {
 
     /* Test the collect method */
 
-    //test that valid input works
+    //test case where valid input is provided
     @Test
     void testCollectWithValidInput() {
         Collection<Integer> expected = Arrays.asList(2, 6, 28);
@@ -29,7 +29,7 @@ public class NumberRangeSummarizerImpTest {
         assertEquals(expected, result);
     }
 
-    //test that code is able to handle empty string input
+    //test case where empty string input is provided
     @Test
     void testCollectWithEmptyString() {
         Collection<Integer> expected = Collections.emptyList();
@@ -37,7 +37,7 @@ public class NumberRangeSummarizerImpTest {
         assertEquals(expected, result);
     }
 
-    //test that the code throws an error when an invalid input is provided
+    //test case where invalid input is provided and that the appropriate error message is provided in response
     @Test
     void testCollectWithInvalidInput() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -49,13 +49,53 @@ public class NumberRangeSummarizerImpTest {
 
     /* Test the summarizeCollection method */
 
-        //test that code is able to handle empty List input
-        @Test
-        void testSummarizeCollectionEmptyList() {
-            String expected = "";
-            Collection<Integer> collected = summarizer.collect("");
-            String result = summarizer.summarizeCollection(collected);
+    //test that code is able to handle empty List input
+    @Test
+    void testSummarizeCollectionEmptyList() {
+        String expected = "";
+        Collection<Integer> collected = summarizer.collect("");
+        String result = summarizer.summarizeCollection(collected);
 
-            assertEquals(expected, result);
-        }
+        assertEquals(expected, result);
     }
+
+    //test case where valid input is provided
+    @Test
+    void testSummarizeCollectionValidInput() {
+        String expected = "2, 5, 13-15, 23";
+        Collection<Integer> collected = summarizer.collect("15, 5, 2, 13, 14, 23");
+        String result = summarizer.summarizeCollection(collected);
+
+        assertEquals(expected, result);
+    }
+
+    //test case where there is single value
+    @Test
+    void testSummarizeCollectionSingleInput() {
+        String expected = "2";
+        Collection<Integer> collected = summarizer.collect("2");
+        String result = summarizer.summarizeCollection(collected);
+
+        assertEquals(expected, result);
+    }
+
+    //test case where all values are sequential
+    @Test
+    void testSummarizeCollectionSequentialInput() {
+        String expected = "20-26";
+        Collection<Integer> collected = summarizer.collect("20, 21, 22, 23, 24, 25, 26");
+        String result = summarizer.summarizeCollection(collected);
+
+        assertEquals(expected, result);
+    }
+
+    //test case where there are no sequential numbers
+    @Test
+    void testSummarizeCollectionNoSequentialInput() {
+        String expected = "1, 3, 5, 7";
+        Collection<Integer> collected = summarizer.collect("1, 3, 5, 7");
+        String result = summarizer.summarizeCollection(collected);
+
+        assertEquals(expected, result);
+    }
+}
